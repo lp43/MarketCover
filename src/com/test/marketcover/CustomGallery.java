@@ -128,14 +128,14 @@ public class CustomGallery extends Gallery {
 		 if(childCenter < mCoveflowCenter){
 			 		 //如果CoverFlow的寬小於300dip，分母會小於零造成運算錯誤
 			 		//若讓分母加上浮點數，又會讓整體畫面算法怪怪的
-			 camera.translate(0f, 0f, -150f+((mCoveflowCenter-childCenter)/((mCoveflowCenter-mCoverflowLeft)/200)));
+			 camera.translate(0f, 0f, -150f+((mCoveflowCenter-childCenter)/((mCoveflowCenter-mCoverflowLeft)/200f)));
 			
 			
 		 }
 		 
 		 if(childCenter > mCoveflowCenter){
 
-			 camera.translate(0f, 0f, -150f-((mCoveflowCenter-childCenter)/((mCoveflowCenter-mCoverflowLeft)/200)));
+			 camera.translate(0f, 0f, -150f-((mCoveflowCenter-childCenter)/((mCoveflowCenter-mCoverflowLeft)/200f)));
 			 
 			
 		 }
@@ -172,18 +172,18 @@ public class CustomGallery extends Gallery {
 //		Log.i("tag", "mCoveflowCenter"+mCoveflowCenter);
 		int childCenter = getCenterOfView(child);
 //		Log.i("tag", "childCenter"+childCenter);
-		float unit=getHalfOfCoverflow()/230f;
+		float unit=getHalfOfCoverflow()/200f;
 //		Log.i("tag", "unit"+unit);
 		
 		float before_measure = (mCoveflowCenter-childCenter)/unit;
 		int measure = Math.abs((int)before_measure);
 //		 Log.i("tag", "measure: "+measure);
-		int after_measure = measure>230?230:measure;
+		int after_measure = measure>200?200:measure;
 		 
 		 Log.i("tag", "after_measure: "+after_measure);
 
-			 ImageView iv =(ImageView) child;
-			 iv.setAlpha(20);
+//			 ImageView iv =(ImageView) child;
+//			 iv.setAlpha(20);
 		
 //		 Log.i("tag", "id: "+child.getTag().toString());
 		 
@@ -192,6 +192,15 @@ public class CustomGallery extends Gallery {
 		 
 		 
 		 try{
+			 //=================================
+//			 android2.1若用這2行程式去設每個背景
+//			 會造成每個背景的錯亂
+//			 ImageView iv0 =(ImageView) child;		
+//			 iv0.setAlpha(255-after_measure);
+			 //===================================
+			 
+			 
+			//於是才要寫成底下這堆方法，讓Android2.1 & 2.2效果都一樣
 			 ImageView iv0=(ImageView) this.getChildAt(0);
 			 iv0.setAlpha(255-after_measure);
 			 
@@ -203,6 +212,24 @@ public class CustomGallery extends Gallery {
 			 
 			 ImageView iv3=(ImageView) this.getChildAt(3);
 			 iv3.setAlpha(255-after_measure);
+			 
+			 ImageView iv4=(ImageView) this.getChildAt(4);
+			 iv4.setAlpha(255-after_measure);
+			 
+			 ImageView iv5=(ImageView) this.getChildAt(5);
+			 iv5.setAlpha(255-after_measure);
+			 
+			 ImageView iv6=(ImageView) this.getChildAt(6);
+			 iv6.setAlpha(255-after_measure);
+			 
+			 ImageView iv7=(ImageView) this.getChildAt(7);
+			 iv7.setAlpha(255-after_measure);
+			 
+			 ImageView iv8=(ImageView) this.getChildAt(8);
+			 iv8.setAlpha(255-after_measure);
+			 
+			 ImageView iv9=(ImageView) this.getChildAt(9);
+			 iv9.setAlpha(255-after_measure);
 		 }catch(NullPointerException e){
 			 Log.i("tag", "NullPoinerException: "+e.getMessage());
 		 }

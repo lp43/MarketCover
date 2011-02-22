@@ -4,6 +4,16 @@ package com.test.marketcover;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.Shader.TileMode;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.LinearGradient;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.PorterDuffXfermode;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -59,6 +69,48 @@ public class MyGalleryTest extends Activity {
         
     }
     
+    
+    public ImageView createReflectedImages(int position) {
+    	int gap = 2;
+    	//get original image
+    	Bitmap originalImage = BitmapFactory.decodeResource(this.getResources(), image[0]);
+    	int width = originalImage.getWidth();
+    	int height = originalImage.getHeight();
+    	
+    	Matrix matrix = new Matrix();
+    	matrix.preScale(1, -1);
+    	//create a new mirror
+    	Bitmap reflectionImage = Bitmap.createBitmap(originalImage, 0, height/3, width, height/3, matrix, false);
+    	
+    	//set a range which use by image and mirror
+    	Bitmap image_with_mirror = Bitmap.createBitmap(width, height+height/3, Config.ARGB_8888);
+    	
+    	Canvas canvas = new Canvas(image_with_mirror);
+    	//Draw in the original image
+        canvas.drawBitmap(originalImage, 0, 0, null);
+        //Draw in the reflection
+        canvas.drawBitmap(reflectionImage,0, height + gap, null);
+        
+        //開始畫漸層
+        LinearGradient shader = new LinearGradient(0, height, 0, image_with_mirror.getHeight(), 0x70ffffff, 0x00ffffff, TileMode.CLAMP);
+        Paint paint = new Paint();
+        paint.setShader(shader);
+        //去邊
+        paint.setXfermode(new PorterDuffXfermode(Mode.DST_IN));
+        //從下半邊重繪
+        canvas.drawRect(0, height, width,
+        		image_with_mirror.getHeight() + gap, paint);
+        
+        //將重新製定的ImageView套進來
+        ImageView img = new ImageView(this);
+        img.setImageBitmap(image_with_mirror);
+        img.setTag(position);
+        
+        
+		return img;
+    	
+    }
+    
     private class myAdapter extends BaseAdapter{
     	
     	public myAdapter(Context c){
@@ -88,12 +140,14 @@ public class MyGalleryTest extends Activity {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			ImageView imageview=new ImageView(MyGalleryTest.this);
-			imageview.setImageResource(image[position]);
-//			imageview.setLayoutParams(new Gallery.LayoutParams(160, 200));
-//			imageview.setBackgroundResource(R.drawable.gallery/*mGalleryItemBackground*/);
-			imageview.setTag(position);
-			return imageview;
+//			ImageView imageview=new ImageView(MyGalleryTest.this);
+//			imageview.setImageResource(image[position]);
+////			imageview.setLayoutParams(new Gallery.LayoutParams(160, 200));
+////			imageview.setBackgroundResource(R.drawable.gallery/*mGalleryItemBackground*/);
+//			imageview.setTag(position);
+			
+			return createReflectedImages(position);
+//			return imageview;
 		}
     	
     }

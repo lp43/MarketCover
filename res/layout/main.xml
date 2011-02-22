@@ -8,7 +8,7 @@
 <com.test.marketcover.CustomGallery
 android:id="@+id/custom_gallery"
 android:layout_width="fill_parent"
-android:layout_height="400dip"
+android:layout_height="300dip"
 android:layout_marginLeft="0dip"
 android:background="@color/black"/>
 

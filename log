@@ -1,4 +1,9 @@
 2/22
+v1.0.1
 1.依照CoverFlow完全自己寫出來的滑動Android Market Cover
 2.淡入淡出
 2.(尚未做到陰影效果)
+
+v1.0.2
+1.加了mirror居然會讓右側的淡入淡出沒畫面，只好多加了幾組ImageView進setChildAlpha()去控制
+2.發現完成的特效在WS效能緩慢，業務(S)說沒關係
