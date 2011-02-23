@@ -7,3 +7,4 @@ v1.0.1
 v1.0.2
 1.加了mirror居然會讓右側的淡入淡出沒畫面，只好多加了幾組ImageView進setChildAlpha()去控制
 2.發現完成的特效在WS效能緩慢，業務(S)說沒關係
+3.試圖換已呈獻的Gallery圖案

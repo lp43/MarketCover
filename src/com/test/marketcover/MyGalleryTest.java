@@ -23,6 +23,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -42,16 +43,37 @@ public class MyGalleryTest extends Activity {
     		R.drawable.stage_card,
     };
 	 int mGalleryItemBackground;	
+	 String[] buffer;
+	String[] temp=new String[]{"test once",
+			"test twice",
+			"test third",
+			"test fourth",
+			"test fifth",
+			"test sixth",
+			"test seventh",
+			"test eighth",
+			"test nineth",
+			"test teneth"};
 	
+	String[] temp2=new String[]{"test 1",
+			"test 2",
+			"test 3",
+			"test 4",
+			"test 5",
+			"test 6",
+			"test 7",
+			"test 8",
+			"test 9",
+			"test 10"};
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
+        buffer=temp;
         
-        
-        CustomGallery custom_gallery=(CustomGallery) findViewById(R.id.custom_gallery);
+        final CustomGallery custom_gallery=(CustomGallery) findViewById(R.id.custom_gallery);
         custom_gallery.setAdapter(new myAdapter(this));
 
         custom_gallery.setOnItemClickListener(new OnItemClickListener(){
@@ -67,6 +89,22 @@ public class MyGalleryTest extends Activity {
         custom_gallery.setSpacing(-50);
         custom_gallery.setSelection(image.length/2);
         
+        Button btn = (Button) findViewById(R.id.btn);
+        btn.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				if(buffer==temp2){
+					buffer=temp;
+				}else{
+					buffer=temp2;
+				}
+				
+				ImageView iv= (ImageView) custom_gallery.getChildAt(0);
+				iv.setBackgroundResource(R.drawable.noapps);
+			}
+        	
+        });
     }
     
     
@@ -91,6 +129,8 @@ public class MyGalleryTest extends Activity {
         //Draw in the reflection
         canvas.drawBitmap(reflectionImage,0, height + gap, null);
         
+       
+        
         //開始畫漸層
         LinearGradient shader = new LinearGradient(0, height, 0, image_with_mirror.getHeight(), 0x70ffffff, 0x00ffffff, TileMode.CLAMP);
         Paint paint = new Paint();
@@ -100,6 +140,8 @@ public class MyGalleryTest extends Activity {
         //從下半邊重繪
         canvas.drawRect(0, height, width,
         		image_with_mirror.getHeight() + gap, paint);
+        
+        canvas.drawText(buffer[position], 10, 20, paint);
         
         //將重新製定的ImageView套進來
         ImageView img = new ImageView(this);
